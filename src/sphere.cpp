@@ -28,7 +28,7 @@ Sphere::Sphere(Sphere const& that) : center(that.center), radius(that.radius),
 const Intersection Sphere::intersect(Ray const& ray) const {
     Vec3f const oc(ray.get_origin() - this->center);
 
-    //The three coefficients of our implicit sphere equation
+    //The three coefficients of our implicit sphere equation: ||o + td - c|| - r = 0
     float a(ray.get_direction().dot(ray.get_direction()));
     float b(2 * ray.get_direction().dot(oc));
     float c(oc.dot(oc) - (radius * radius));
@@ -42,7 +42,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
     //Initialize our intersection data
     float intersection_t(NO_INTERSECTION);
     bool intersection(true);
-    Vec3f intersection_point(ray(intersection_t));
+    Vec3f intersection_point;
     Vec3f intersection_normal;
     Material intersected_material(NO_MATERIAL);
 
@@ -50,7 +50,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
         const float solution_t = t[i];
 
         //Check that t is indeed in front of the camera
-        if(solution_t > 0 && solution_t < intersection_t) {
+        if((solution_t > 0) && (solution_t < intersection_t)) {
             intersection_t = solution_t;
         } 
     }
