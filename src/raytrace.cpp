@@ -14,10 +14,10 @@
 using namespace std;
 
 int main(void) {
-    const unsigned int width = 480;
-    const unsigned int height = 480;
+    const unsigned int width = 1920;
+    const unsigned int height = 1080;
 
-    array<array<string, height>, width> pixels;
+    array<array<string, height>, width>* pixels = new array<array<string, height>, width>();
 
     //Create the scene (static so everything is const)
     const Sphere sphere(Vec3f(0, 1, 2), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(), 0.0));
@@ -45,11 +45,11 @@ int main(void) {
             Color pixel_color = Shader::shade_point(int_data, light, ambient_intensity);
 
             //Write the pixel color into the final array
-            pixels[x][y] = pixel_color.to_color_hex();
+            (*pixels)[x][y] = pixel_color.to_color_hex();
         }
     }
+    cout << (static_cast<float>(num_hits) / static_cast<float>(tot_rays)) * 100 << "% of the rays hit the sphere" << endl;
     cout << "Done rendering, writing to file..." << endl;
-    cout << (num_hits / tot_rays) * 100 << "% of the rays hit the sphere" << endl;
 
     //Write out the result into a bitmap
     ofstream output;  
@@ -64,10 +64,14 @@ int main(void) {
     // loop over each pixel in the image and write the hex_color to the file
     for(int x(0); x < width; ++x) {
         for(int y(0); y < height; ++y) {
-            output << pixels[x][y];
+            output << (*pixels)[x][y];
         }
     }
     output.close(); 
+
+    //Free the pixels array
+    delete pixels;
+    pixels = nullptr;
 
     cout << "Done!" << endl;
 

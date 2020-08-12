@@ -1,5 +1,6 @@
 #include <array>
 #include <limits>
+#include <iostream>
 
 #include "sphere.h"
 #include "solver.h"
@@ -41,7 +42,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
     //Initialize our intersection data
     float intersection_t(NO_INTERSECTION);
     bool intersection(true);
-    Vec3f intersection_point;
+    Vec3f intersection_point(ray(intersection_t));
     Vec3f intersection_normal;
     Material intersected_material(NO_MATERIAL);
 
