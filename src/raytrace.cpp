@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int main(void) {
+int raytrace(void) {
     const unsigned int width = 1920;
     const unsigned int height = 1080;
 
