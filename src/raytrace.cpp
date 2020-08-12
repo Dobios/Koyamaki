@@ -29,8 +29,11 @@ int main(void) {
 
     //Raytracing loop
     cout << "Rendering..." << endl;
+
     int num_hits(0);
     int tot_rays = width * height;
+
+    //Idea: parallelize the outer for loop
     for(int x(0); x < width; ++x) {
         for(int y(0); y < height; ++y) {
             //Trace out a primary ray for a given pixel
