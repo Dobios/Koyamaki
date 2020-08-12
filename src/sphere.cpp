@@ -50,7 +50,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
         const float solution_t = t[i];
 
         //Check that t is indeed in front of the camera
-        if(solution_t <= 0 && solution_t < intersection_t) {
+        if(solution_t > 0 && solution_t < intersection_t) {
             intersection_t = solution_t;
         } 
     }

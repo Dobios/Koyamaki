@@ -20,7 +20,7 @@ int main(void) {
     array<array<string, height>, width>* pixels = new array<array<string, height>, width>();
 
     //Create the scene (static so everything is const)
-    const Sphere sphere(Vec3f(0, 1, 2), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(), 0.0));
+    const Sphere sphere(Vec3f(0, 1, 5), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(), 0.0));
     const Light light(Vec3f(-1, 2, 0), Vec3f(1.f));
     const float ambient_intensity(0.5);
     const Vec3f eye(0, 1, 0);
