@@ -13,5 +13,5 @@ cd build
 cmake ../src  
 make   
 ```  
-The result will be written as an image inside the `build` folder named `result.ppm`.    
+The result will be shown in a fancy Qt UI curtesy of Morten Borup Petersen.   
 
