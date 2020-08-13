@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <QColor>
 
 using namespace std;
 
@@ -80,6 +81,8 @@ public:
 
     //Converts the vector to a hex RGB color string
     const string to_color_hex() const;
+
+    const QRgb to_qrgb() const;
 
     //Computes the min between this vector and a given one
     const Vec3f min(Vec3f const& that) const;

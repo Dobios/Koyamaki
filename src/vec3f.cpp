@@ -4,6 +4,7 @@
 #include <math.h>
 #include <iomanip>
 
+
 using namespace std;
 
 //Constructors and copy constructor
@@ -59,6 +60,17 @@ const Vec3f Vec3f::max(Vec3f const& that) const {
         std::max(this->y, that.y), 
         std::max(this->z, that.z)
     );
+}
+
+const QRgb Vec3f::to_qrgb() const {
+    Vec3f color_vec(this->min(Vec3f(1.f)).max(Vec3f(0.f)));
+
+    //Extract the rgb components
+    uint8_t r(color_vec.x * 255);
+    uint8_t g(color_vec.y * 255);
+    uint8_t b(color_vec.z * 255);
+
+    return (0xFF) << 24 | r << 16 | g << 8 | b;
 }
 
 const string Vec3f::to_color_hex() const {
