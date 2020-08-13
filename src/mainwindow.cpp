@@ -20,10 +20,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    calculateRays();
 
     // Connect all scene modifying widgets to rerender
-    connect(ui->width, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
-    connect(ui->height, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
+    connect(ui->width, QOverload<int>::of(&QSpinBox::valueChanged), [=]{
+        calculateRays();
+        rerender();
+    });
+    connect(ui->height, QOverload<int>::of(&QSpinBox::valueChanged),[=]{
+        calculateRays();
+        rerender();
+    });
     connect(ui->eye1, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
     connect(ui->eye2, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
     connect(ui->eye3, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
@@ -49,16 +56,38 @@ void MainWindow::rerender() {
     static QFuture<void> future;
 
     if(future.isRunning()) {
-        future.cancel();
+        stop_flag = true;
+        while(future.isRunning()){
+            QThread::msleep(10); // bad!
+        }
     }
+    stop_flag = false;
 
     future = QtConcurrent::run(this, &MainWindow::render);
+}
+
+void MainWindow::calculateRays() {
+    const unsigned int width = ui->width->value();
+    const unsigned int height = ui->height->value();
+    int tot_rays = width * height;
+
+    rays.clear();
+    rays.reserve(tot_rays);
+    for(int x = 0; x < width; x++){
+        for (int y = 0; y < height; y++) {
+            rays.push_back({x,y});
+        }
+    }
+    std::shuffle(rays.begin(), rays.end(), std::mt19937{std::random_device{}()});
+
+
 }
 
 void MainWindow::render() {
 
     const unsigned int width = ui->width->value();
     const unsigned int height = ui->height->value();
+
 
     QImage img(width, height, QImage::Format_RGB888);
 
@@ -75,10 +104,11 @@ void MainWindow::render() {
     int tot_rays = width * height;
 
     auto lasttime = std::chrono::high_resolution_clock::now();
-
     //Idea: parallelize the outer for loop
-    for(int x(0); x < width; ++x) {
-        for(int y(0); y < height; ++y) {
+    for(const auto [x, y] : rays){
+            if(stop_flag){
+                break;
+            }
             //Trace out a primary ray for a given pixel
             Ray primary_ray(camera.primary_ray(x, y));
 
@@ -104,7 +134,8 @@ void MainWindow::render() {
                 emit updateImage(img);
             }
         }
-    }
+
+
 
     emit updateImage(img);
 }
