@@ -64,6 +64,7 @@ void MainWindow::render() {
 
     //Create the scene (static so everything is const)
     const Sphere sphere(Vec3f(0, 1, 5), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(), 0.0));
+    const Sphere sphere_2(Vec3f(5, 1, 5), 1, Material(Vec3f(0.0, 1.0, 0.8), Vec3f(0.0, 1.0, 0.8), Vec3f(), 0.0));
     const Light light(Vec3f(-1, 2, 0), Vec3f(1.f));
     const float ambient_intensity(0.5);
     const Vec3f eye(ui->eye1->value(), ui->eye2->value(), ui->eye3->value());
@@ -83,11 +84,17 @@ void MainWindow::render() {
 
             //Shoot out the ray and shade the potential intersection point
             Intersection int_data(sphere.intersect(primary_ray));
-            if(int_data.intersected) {
+            Intersection int_data_2(sphere_2.intersect(primary_ray));
+            if(int_data.intersected || int_data_2.intersected) {
                 num_hits++;
             }
 
-            Color pixel_color = Shader::shade_point(int_data, light, ambient_intensity);
+            Color pixel_color;
+            if(int_data.intersection_t < int_data_2.intersection_t) {
+                pixel_color = Shader::shade_point(int_data, light, ambient_intensity);
+            } else {
+                pixel_color = Shader::shade_point(int_data_2, light, ambient_intensity);
+            }
 
             //Write the pixel color into the final std::vector
             img.setPixel(x, y, pixel_color.to_qrgb());
