@@ -2,7 +2,7 @@
 A little ray tracer I'm writing from scratch in cpp.  
 
 ## Current state  
-It only renders spheres in a very buggy way, trying to fix...    
+It only renders spheres.     
 ![Example result from the ray tracer](result.png)  
   
 ## How to use it  
@@ -13,5 +13,5 @@ cd build
 cmake ../src  
 make   
 ```  
-The result will be written as an image inside the `build` folder named `result.ppm`.    
+The result will be shown in a fancy Qt UI curtesy of Morten Borup Petersen.   
 
