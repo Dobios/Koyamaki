@@ -25,7 +25,7 @@ int main(void) {
     const float ambient_intensity(0.5);
     const Vec3f eye(0, 1, 0);
 
-    Camera camera(eye, Vec3f(0, 1, 1), Vec3f(0, 1, 0), 100.f, width, height);
+    Camera camera(eye, Vec3f(0, 1, 1), Vec3f(30, 4, 4), 90.f, width, height);
 
     //Raytracing loop
     cout << "Rendering..." << endl;
