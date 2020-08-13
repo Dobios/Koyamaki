@@ -22,6 +22,21 @@ void View::mousePressEvent(QMouseEvent *event){
     }
 }
 
+void View::setEye(const Vec3f _eye) {
+    eye = _eye;
+    emit cameraChanged();
+}
+
+void View::setCenter(const Vec3f _center) {
+    center = _center;
+    emit cameraChanged();
+}
+
+void View::setUp(const Vec3f _up) {
+    up = _up;
+    emit cameraChanged();
+}
+
 void View::moveEye(const double dx, const double dy, const double dz) {
     ///@todo: math
     constexpr double eye_scale = 100;

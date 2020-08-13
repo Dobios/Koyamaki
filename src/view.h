@@ -17,6 +17,11 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent * event);
 
+    void setEye(const Vec3f eye);
+    void setCenter(const Vec3f center);
+    void setUp(const Vec3f up);
+
+
 public slots:
     void setWidth(unsigned w);
     void setHeight(unsigned h);
@@ -40,8 +45,6 @@ private:
     void moveEye(const double dx, const double dy, const double dz);
     void moveCenter(const double dx, const double dy, const double dz);
     void moveUp(const double dx, const double dy, const double dz);
-
-
 
     /**
      * @brief lastClickPos

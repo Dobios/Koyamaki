@@ -27,6 +27,9 @@ signals:
 private:
     Ui::MainWindow *ui;
 
+    void updateCameraControls();
+    void connectCameraControls();
+
     void render();
     void rerender();
     void calculateRays();
