@@ -20,6 +20,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Setup scene
+    view = new View(this);
+    ui->viewLayout->addWidget(view);
+    scene = new QGraphicsScene();
+    view->setScene(scene);
+    image = new QGraphicsPixmapItem();
+    scene->addItem(image);
+
     calculateRays();
 
     // Connect all scene modifying widgets to rerender
@@ -41,10 +49,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->up2, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
     connect(ui->up3, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::rerender);
     connect(ui->fov, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::rerender);
+    connect(view, &View::cameraChanged, this, &MainWindow::rerender);
 
 
     connect(this, &MainWindow::updateImage, this, [=](QImage img){
-        ui->image->setPixmap(QPixmap::fromImage(img));
+        image->setPixmap(QPixmap::fromImage(img));
     }, Qt::QueuedConnection);
 }
 
@@ -84,7 +93,6 @@ void MainWindow::calculateRays() {
 }
 
 void MainWindow::render() {
-
     const unsigned int width = ui->width->value();
     const unsigned int height = ui->height->value();
 
@@ -96,12 +104,11 @@ void MainWindow::render() {
     const Sphere sphere_2(Vec3f(5, 1, 5), 1, Material(Vec3f(0.0, 1.0, 0.8), Vec3f(0.0, 1.0, 0.8), Vec3f(), 0.0));
     const Light light(Vec3f(-1, 2, 0), Vec3f(1.f));
     const float ambient_intensity(0.5);
-    const Vec3f eye(ui->eye1->value(), ui->eye2->value(), ui->eye3->value());
 
-    Camera camera(eye, Vec3f(ui->center1->value(), ui->center2->value(), ui->center3->value()), Vec3f(ui->up1->value(), ui->up2->value(), ui->up3->value()), ui->fov->value(), width, height);
+    const auto camera = view->getCamera();
 
     int num_hits(0);
-    int tot_rays = width * height;
+
 
     auto lasttime = std::chrono::high_resolution_clock::now();
     //Idea: parallelize the outer for loop
