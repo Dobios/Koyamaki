@@ -1,4 +1,4 @@
-# RaytracingFun
+# Koymaki Renderer  
 A little ray tracer I'm writing from scratch in cpp.  
 
 ## Current state  
