@@ -53,8 +53,7 @@ int raytrace(void) {
     }
     cout << (static_cast<float>(num_hits) / static_cast<float>(tot_rays)) * 100 << "% of the rays hit the sphere" << endl;
     cout << "Done rendering, writing to file..." << endl;
-    
-/* TODO: FIXME
+
     //Write out the result into a bitmap
     ofstream output;  
     output.open("result.ppm", ios::out | ios::binary);
@@ -68,10 +67,10 @@ int raytrace(void) {
     // loop over each pixel in the image and write the hex_color to the file
     for(int x(0); x < width; ++x) {
         for(int y(0); y < height; ++y) {
-            output << (*pixels)[x][y];
+            output << (*pixels)[y][x];
         }
     }
-    output.close(); */
+    output.close(); 
 
     //Free the pixels array
     delete pixels;

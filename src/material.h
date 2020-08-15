@@ -2,6 +2,8 @@
 
 #include "vec3f.h"
 
+#define NO_MATERIAL Material(Vec3f(0.f), Vec3f(0.f), Vec3f(0.f), 0.0)
+
 class Material {
 public:
     Vec3f ambient;  //RGB vector for the material's ambient component

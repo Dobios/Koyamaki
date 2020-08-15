@@ -12,6 +12,7 @@
 #include "shader.h"
 #include "light.h"
 #include "camera.h"
+#include "plane.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -148,8 +149,10 @@ void MainWindow::render() {
     QImage img(width, height, QImage::Format_RGB888);
 
     //Create the scene (static so everything is const)
-    const Sphere sphere(Vec3f(0, 1, 5), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(), 0.0));
-    const Sphere sphere_2(Vec3f(5, 1, 5), 1, Material(Vec3f(0.0, 1.0, 0.8), Vec3f(0.0, 1.0, 0.8), Vec3f(), 0.0));
+    const Sphere sphere(Vec3f(0, 1, 5), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(0.5f), 100.0));
+    const Plane plane(Vec3f(0, -.95, 0), Vec3f(0, 1, 0),  Material(Vec3f(0.7, 0.5, 0.0), Vec3f(0.7, 0.5, 0.0), Vec3f(0.2f), 100.0));
+
+    //Scene lights
     const Light light(Vec3f(-1, 2, 0), Vec3f(1.f));
     const float ambient_intensity(0.5);
 
@@ -168,12 +171,15 @@ void MainWindow::render() {
 
         //Shoot out the ray and shade the potential intersection point
         Intersection int_data(sphere.intersect(primary_ray));
-        Intersection int_data_2(sphere_2.intersect(primary_ray));
+        Intersection int_data_2(plane.intersect(primary_ray));
+
         if(int_data.intersected || int_data_2.intersected) {
             num_hits++;
         }
 
         Color pixel_color;
+
+        //Check to see which intersection came first
         if(int_data.intersection_t < int_data_2.intersection_t) {
             pixel_color = Shader::shade_point(int_data, light, ambient_intensity);
         } else {
