@@ -19,7 +19,7 @@ include_directories(${Qt5Core_INCLUDE_DIRS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 
 file(GLOB SRCS_COMMON src/*)
-file(GLOB HDRS ./*.h)
+file(GLOB HDRS src/*.h)
 
 add_executable(raytrace main.cpp ${SRCS_COMMON} ${HDRS})
 target_link_libraries(raytrace Qt5::Core Qt5::Widgets)
