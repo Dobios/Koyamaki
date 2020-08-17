@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int raytrace(void) {
+/*int raytrace(void) {
     const unsigned int width = 1920;
     const unsigned int height = 1080;
 
@@ -79,4 +79,4 @@ int raytrace(void) {
     cout << "Done!" << endl;
 
     return 0;
-}
+}*/

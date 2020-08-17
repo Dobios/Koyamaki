@@ -14,11 +14,11 @@ Vec3f const& Ray::get_direction() const {
     return this->direction;
 }
 
-bool Ray::is_shadow_ray() const {
+const bool Ray::is_shadow_ray() const {
     return this->shadow_ray;
 }
 
 //Evaluates the result of r(t) = o + t*d
-Vec3f Ray::operator()(float t) const {
+const Vec3f Ray::operator()(float t) const {
     return get_origin() + Vec3f(t) * get_direction();
 }

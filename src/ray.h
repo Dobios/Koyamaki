@@ -18,8 +18,8 @@ public:
     //Getters
     Vec3f const& get_origin() const;
     Vec3f const& get_direction() const;
-    bool is_shadow_ray() const;
+    const bool is_shadow_ray() const;
 
     //Evaluates the result of r(t) = o + t*d
-    Vec3f operator()(float t) const;
+    const Vec3f operator()(float t) const;
 };

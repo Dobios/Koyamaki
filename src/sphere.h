@@ -4,8 +4,9 @@
 #include "material.h"
 #include "ray.h"
 #include "intersection.h"
+#include "shape.h"
 
-class Sphere {
+class Sphere : public Shape {
 public:
     Vec3f center;
     float radius;
@@ -24,5 +25,5 @@ public:
      * @param ray, a ray with which we will be intersecting
      * @returns the point at which the intersection happened
      */
-    const Intersection intersect(Ray const& ray) const;
+    virtual const Intersection intersect(Ray const& ray) const override;
 };

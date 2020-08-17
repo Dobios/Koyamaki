@@ -13,7 +13,9 @@
 #include "light.h"
 #include "camera.h"
 #include "plane.h"
+#include "scene.h"
 
+#include <memory>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -141,24 +143,16 @@ void MainWindow::calculateRays() {
 }
 
 void MainWindow::render() {
-    const auto camera = view->getCamera();
+    const Camera camera = view->getCamera();
     const unsigned int width = camera.width;
     const unsigned int height = camera.height;
-
 
     QImage img(width, height, QImage::Format_RGB888);
 
     //Create the scene (static so everything is const)
-    const Sphere sphere(Vec3f(0, 1, 5), 2, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(0.5f), 100.0));
-    const Plane plane(Vec3f(0, -.95, 0), Vec3f(0, 1, 0),  Material(Vec3f(0.7, 0.5, 0.0), Vec3f(0.7, 0.5, 0.0), Vec3f(0.2f), 100.0));
-
-    //Scene lights
-    const Light light(Vec3f(-1, 2, 0), Vec3f(1.f));
-    const float ambient_intensity(0.5);
-
-
-    int num_hits(0);
-
+    unique_ptr<Scene> scene = make_unique<Scene>(camera, Light(Vec3f(-1, 2, 0), Vec3f(1.f)), 0.5,
+        Plane(Vec3f(0, -.95, 0), Vec3f(0, 1, 0), Material(Vec3f(0.7, 0.5, 0.0), Vec3f(0.7, 0.5, 0.0), Vec3f(0.2f), 100.0)),
+        Sphere(Vec3f(0, 1, 5), 5, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(0.5f), 100.0)));
 
     auto lasttime = std::chrono::high_resolution_clock::now();
     //Idea: parallelize the outer for loop
@@ -170,21 +164,8 @@ void MainWindow::render() {
         Ray primary_ray(camera.primary_ray(x, y));
 
         //Shoot out the ray and shade the potential intersection point
-        Intersection int_data(sphere.intersect(primary_ray));
-        Intersection int_data_2(plane.intersect(primary_ray));
-
-        if(int_data.intersected || int_data_2.intersected) {
-            num_hits++;
-        }
-
-        Color pixel_color;
-
-        //Check to see which intersection came first
-        if(int_data.intersection_t < int_data_2.intersection_t) {
-            pixel_color = Shader::shade_point(int_data, light, ambient_intensity);
-        } else {
-            pixel_color = Shader::shade_point(int_data_2, light, ambient_intensity);
-        }
+        const Intersection int_data(scene->intersect(primary_ray));
+        Color pixel_color = Shader::shade_point(int_data, scene);
 
         //Write the pixel color into the final std::vector
         img.setPixel(x, y, pixel_color.to_qrgb());

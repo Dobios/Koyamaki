@@ -28,4 +28,7 @@ public:
 
     //Copy constructor
     Intersection(Intersection const& that);
+
+    //Custom assignement operator
+    Intersection const& operator=(Intersection const& other);
 };

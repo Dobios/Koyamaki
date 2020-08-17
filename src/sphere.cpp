@@ -38,7 +38,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
 
     //Initialize our intersection data
     float intersection_t(NO_INTERSECTION);
-    bool intersection(true);
+    bool intersection(false);
     Vec3f intersection_point;
     Vec3f intersection_normal;
     Vec3f dir_to_eye;
@@ -53,9 +53,7 @@ const Intersection Sphere::intersect(Ray const& ray) const {
         } 
     }
 
-    if(intersection_t == NO_INTERSECTION) {
-        intersection = false;
-    } else {
+    if(intersection_t < NO_INTERSECTION) {
         //Compute the final intersection data
         intersection_point = ray(intersection_t);
         intersection_normal = (intersection_point - this->center) / this->radius;

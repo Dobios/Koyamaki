@@ -9,7 +9,7 @@ Plane::Plane(Vec3f const& surface_point, Vec3f const& normal, Material const& ma
 Plane::Plane(Plane const& other) : surface_point(other.surface_point),
     normal(other.normal.normalized()), mat(other.mat) {}
 
-Intersection Plane::intersect(Ray const& ray) const {
+const Intersection Plane::intersect(Ray const& ray) const {
     //Compute d component of the cartesian equation n_0 * x + n_1 * y + n_2 * z = d
     float d(normal.dot(surface_point));
 

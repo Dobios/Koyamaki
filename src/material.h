@@ -11,7 +11,8 @@ public:
     Vec3f specular; //RGB vector for the material's specular component
     float shininess;//Cosine exponent that controls the material's shininess
 
-    Material() = delete;
+    //Default constructor
+    Material() = default;
 
     //Constructor for the material object
     Material(Vec3f ambient, Vec3f diffuse, Vec3f specular, float shininess);
