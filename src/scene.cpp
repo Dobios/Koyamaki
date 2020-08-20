@@ -19,32 +19,17 @@ void Scene::add_plane(Plane const& shape) {
 }
 
 const Intersection Scene::intersect(Ray const& ray) const {
-    float intersection_t(NO_INTERSECTION);
-    bool intersection(false);
-    Vec3f intersection_point;
-    Vec3f intersection_normal;
-    Vec3f dir_to_eye;
-    Material intersected_material(NO_MATERIAL);
-    Intersection min_intersection(
-        intersection_point,
-        intersection_normal,
-        dir_to_eye,
-        intersected_material,
-        intersection_t,
-        intersection
-    );
+    Intersection min_intersection;
 
     //Test the intersection against everything
+    Intersection int_data;
     for(auto const& shape : geometry) {
-        const Intersection int_data = shape->intersect(ray);
-
-        //Check to see if we hit something
-        if(int_data.intersected && int_data.intersection_t > 0) {
-            //Is the new intersection closer along the ray
-            if(int_data.intersection_t < min_intersection.intersection_t) {
-                min_intersection = int_data;
-            }
-        } 
+        int_data = shape->intersect(ray);
+        
+        //Is the new intersection closer along the ray
+        if(int_data.intersection_t < min_intersection.intersection_t) {
+            min_intersection = int_data;
+        }
     }
 
     return min_intersection;

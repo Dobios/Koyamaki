@@ -26,5 +26,5 @@ public:
      * @param ray, a ray with which we will be intersecting
      * @returns the point at which the intersection happened
      */
-    virtual const Intersection intersect(Ray const& ray) const override;
+    virtual const Intersection intersect(Ray const& ray) const;
 };

@@ -1,5 +1,9 @@
 #include "intersection.h"
 
+//Default constructor
+Intersection::Intersection() : point(), normal(), dir_to_eye(), material(),
+    intersection_t(NO_INTERSECTION), intersected(false) {}
+
 //Constructor
 Intersection::Intersection(
     Vec3f const& point,

@@ -30,10 +30,10 @@ const Color Shader::shade_point(Intersection const& int_data, unique_ptr<Scene> 
     const Color specular_color(scene->light.intensity * int_data.material.specular * Vec3f(cos_alpha));
 
     //Check for shadows
-    const Color diff_spec = is_shadow(int_data.point, int_data.normal, l, scene) ?
-        Vec3f(0.f) : (diffuse_color + specular_color);
+    /*const Color diff_spec = is_shadow(int_data.point, int_data.normal, l, scene) ?
+        Vec3f(0.f) : (diffuse_color + specular_color);*/
 
-    return (ambient_color + diff_spec).min(Vec3f(1.f));
+    return (ambient_color + (diffuse_color + specular_color)).min(Vec3f(1.f));
 }
 
 const bool Shader::is_shadow(Vec3f const& point, Vec3f const& normal, Vec3f const& dir_to_light, unique_ptr<Scene> const& scene) {

@@ -14,7 +14,7 @@ public:
     float intersection_t;   //At which point along the ray the intersection happened
     bool intersected;       //Whether the intersection is valid or not
 
-    Intersection() = delete;
+    Intersection();
 
     //Constructor
     Intersection(
