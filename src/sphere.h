@@ -13,7 +13,7 @@ public:
     Material mat;
 
     Sphere() = delete;
-    //virtual ~Shape();
+    virtual ~Sphere() = default;
 
     //Constructor
     Sphere(Vec3f const& center, float radius, Material const& mat);

@@ -14,6 +14,7 @@ private:
 
 public:
     Plane() = default;
+    virtual ~Plane() = default;
 
     //Constructor and copy constructor
     Plane(Vec3f const& surface_point, Vec3f const& normal, Material const& mat);

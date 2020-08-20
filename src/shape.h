@@ -5,6 +5,6 @@
 
 class Shape {
 public:
-    virtual ~Shape() = 0;
+    virtual ~Shape() = default;
     virtual const Intersection intersect(Ray const& ray) const = 0;
 };
