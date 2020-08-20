@@ -150,9 +150,10 @@ void MainWindow::render() {
     QImage img(width, height, QImage::Format_RGB888);
 
     //Create the scene (static so everything is const)
-    unique_ptr<Scene> scene = make_unique<Scene>(camera, Light(Vec3f(-1, 2, 0), Vec3f(1.f)), 0.5,
-        Plane(Vec3f(0, -.95, 0), Vec3f(0, 1, 0), Material(Vec3f(0.7, 0.5, 0.0), Vec3f(0.7, 0.5, 0.0), Vec3f(0.2f), 100.0)),
-        Sphere(Vec3f(0, 1, 5), 5, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(0.5f), 100.0)));
+    unique_ptr<Scene> scene = make_unique<Scene>(camera, Light(Vec3f(-1, 2, 0), Vec3f(1.f)), 0.5);
+
+    scene->add_sphere(Sphere(Vec3f(0, 1, 5), 5, Material(Vec3f(1.f, 0.0, 0.8), Vec3f(1.f, 0.0, 0.8), Vec3f(0.5f), 100.0)));
+    scene->add_plane(Plane(Vec3f(0, -.95, 0), Vec3f(0, 1, 0), Material(Vec3f(0.7, 0.5, 0.0), Vec3f(0.7, 0.5, 0.0), Vec3f(0.2f), 100.0)));
 
     auto lasttime = std::chrono::high_resolution_clock::now();
     //Idea: parallelize the outer for loop

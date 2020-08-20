@@ -16,9 +16,7 @@ using namespace std;
 
 class Scene {
 private:
-    vector<unique_ptr<Sphere>> geometry;
-    const Sphere sphere;
-    const Plane plane;
+    vector<unique_ptr<Shape>> geometry;
     const Camera eye;
 
 public:
@@ -36,13 +34,19 @@ public:
      * @param ambient, the intensity of the ambien light in the scene
      * @note the geometry must be added after construction
      */
-    Scene(Camera const& cam, Light const& light, float ambient, Plane const& plane, Sphere const& sphere);
+    Scene(Camera const& cam, Light const& light, float ambient);
 
     /**
      * @brief Adds a given sphere to the scene 
      * @param shape, the shape that will be added to the scene
      */
     void add_sphere(Sphere const& shape);
+
+    /**
+     * @brief Adds a given plane to the scene 
+     * @param shape, the shape that will be added to the scene
+     */
+    void add_plane(Plane const& shape);
 
     /**
      * @brief Computes the closest intersection between a given ray and the geometry in the scene

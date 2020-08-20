@@ -16,6 +16,7 @@ Sphere::Sphere(Vec3f const& center, float radius, Material const& mat) :
 //Copy constructor
 Sphere::Sphere(Sphere const& that) : center(that.center), radius(that.radius),
     mat(that.mat) {}
+  
 
 /**
  * @brief Computes the intersection between a given ray and the sphere
