@@ -165,7 +165,7 @@ void MainWindow::render() {
         Ray primary_ray(camera.primary_ray(x, y));
 
         //Shoot out the ray and shade the potential intersection point
-        const Intersection int_data(scene->intersect(primary_ray));
+        Intersection int_data(scene->intersect(primary_ray));
         Color pixel_color = Shader::shade_point(int_data, scene);
 
         //Write the pixel color into the final std::vector
